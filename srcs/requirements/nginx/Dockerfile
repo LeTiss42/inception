@@ -1,8 +1,41 @@
-from debian12.0
+from debian:buster
+
+#trying to call RUN a minimum amount of time to reduce the quantity of docker layers
 
 RUN apt-get update -yq \
-&& apt-get install curl gnupg -yq \
 && apt-get install nginx -yq \
-&& apt-get install vim -yq \
-&& apt-get install openSSL -yq \
-&& 
+&& apt-get install openssl -yq \
+&& apt-get clean -y \
+&& mkdir /etc/nginx/sslcerts \
+&& openssl req -nodes -x509 -sha256 -newkey rsa:2048 \
+	-keyout /etc/nginx/sslcerts/cert.pem \
+	-out /etc/nginx/sslcerts/key.pem \
+	-subj "/C=FR/ST=Loiret/L=Montargis/O=42/OU=Inception/CN=mravera"
+
+#swap nginx default configuration file with our
+COPY conf/nginx.conf /etc/nginx/conf.d/.
+
+#start nginx using the directive "daemon off" as an option to keep the program from self-daemonizing
+CMD ["nginx", "-g", "daemon off;"]
+
+#openssl options :
+# req		request the creation of a certificate
+# -noenc	the created private key will not be encrypted (no "choose psswrd" prompt")
+# -nodes	same as -noenc but deprecated in 3.0 (but does not exist in 1.1)
+# -x509		output a selfsigned certificate (no need for Certificate Authority)
+# -sha256	only appear in the 1.0 doc as -[digest] command.
+#			specifies the message digest to sign the request with.
+# -newkey	create a new certificate with (in this case) a 2048 bits rsa private key
+# -keyout	to choose name and folder of the key
+# -out		to choose name and folder of the certificate
+# -subj		to enter directly the subject info avoiding any prompt
+
+# troubleshouting :
+#
+#	=> => # Err:1 http://deb.debian.org/debian buster InRelease
+#	=> => #   Temporary failure resolving 'deb.debian.org'
+#
+# restart docker :	sudo service docker restart
+#					sudo /etc/init.d/docker restart
+#					sudo snap restart docker
+
