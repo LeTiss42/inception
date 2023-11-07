@@ -1,6 +1,10 @@
-from debian:buster
+# parent image used by a lot of ppl
+#FROM debian:buster
+# parent image of the current penultimate stable version of debian
+FROM debian:bullseye
 
-#trying to call RUN a minimum amount of time to reduce the quantity of docker layers
+# trying to call RUN a minimum amount of time to reduce the quantity of docker layers
+# each RUN instruction creates a new "layer"
 
 RUN apt-get update -yq \
 && apt-get install nginx -yq \
@@ -21,7 +25,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 #openssl options :
 # req		request the creation of a certificate
-# -noenc	the created private key will not be encrypted (no "choose psswrd" prompt")
+# -noenc	the created private key will not be encrypted (no "choose psswrd" prompt)
 # -nodes	same as -noenc but deprecated in 3.0
 # -x509		output a selfsigned certificate (no need for Certificate Authority)
 # -sha256	only appear in the 1.0 doc as -[digest] command.
