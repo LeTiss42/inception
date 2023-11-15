@@ -3,6 +3,7 @@
 # parent image of the current penultimate stable version of debian
 FROM debian:bullseye
 
+# apt, while being more "user-friendly", is less suited for script than apt-get
 # trying to call RUN a minimum amount of time to reduce the quantity of docker layers
 # each RUN instruction creates a new "layer"
 
@@ -40,7 +41,7 @@ CMD ["nginx", "-g", "daemon off;"]
 #	=> => # Err:1 http://deb.debian.org/debian buster InRelease
 #	=> => #   Temporary failure resolving 'deb.debian.org'
 #
-# restart docker :	sudo service docker restart
-#					sudo /etc/init.d/docker restart
-#					sudo snap restart docker
+# use one of these to restart docker :	sudo service docker restart
+#										sudo /etc/init.d/docker restart
+#										sudo snap restart docker
 

@@ -23,9 +23,15 @@ mariadb -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON \`${MYSQL
 mariadb -u root -p"${MYSQL_ROOT_PASSWORD}" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
 mariadb -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
 
-# mariadb-admin is an administration program go the mysqld daemon
+# mariadb-admin is an administration program for the mysqld daemon
 mariadb-admin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
 
 # The mysqld_safe (or mariadb-safe but did not work here) startup script is in MariaDB distributions on Linux and Unix.
-# It is a wrapper that starts mysqld with some extra safety features.
+# It is a wrapper that starts mysqld with some extra safety features suche as restarting the server when an error occurs.
+# The script sets environment variables and checks for errors before launching the MySQL server.
 exec mysqld_safe
+
+# STOP the mariadb service using the command :
+# service mariadb stop
+# enter a running container in a new console by using :
+# docker exec -it [container-id] bash

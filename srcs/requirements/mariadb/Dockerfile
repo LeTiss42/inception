@@ -1,6 +1,7 @@
 #"oldstable" debian version
 FROM debian:bullseye
 
+# -q for quiet
 RUN apt-get update -yq \
 && apt-get upgrade -y \
 && apt-get install mariadb-server -y \
