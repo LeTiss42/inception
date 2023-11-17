@@ -13,13 +13,12 @@ COPY conf/my_conf.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 # mariadb setup, here or in a separate script. more info in mariadb_start.sh file
 RUN service mariadb start \
 && sleep 5 \
-&& mariadb -u root -p"rootpwd" -e "CREATE DATABASE IF NOT EXISTS \`ouidb\`;" \
-&& mariadb -u root -p"rootpwd" -e "CREATE USER IF NOT EXISTS \`userdb\`@'localhost' IDENTIFIED BY 'mysqlpwd';" \
-&& mariadb -u root -p"rootpwd" -e "GRANT ALL PRIVILEGES ON \`ouidb\`.* TO \`userdb\`@'%' IDENTIFIED BY 'mysqlpwd';" \
-&& mariadb -u root -p"rootpwd" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'rootpwd';" \
-&& mariadb -u root -p"rootpwd" -e "FLUSH PRIVILEGES;" \
-&& mariadb-admin -u root -p"rootpwd" shutdown \
-&& echo "SUUUUUUUUUUUUUUUUUU"
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DB}\`;" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PWD}';" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DB}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PWD}';" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIA_ROOT_PWD}';" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "FLUSH PRIVILEGES;" \
+&& mariadb-admin -u root -p"${MARIA_ROOT_PWD}" shutdown
 
 CMD ["mysqld_safe"]
 
