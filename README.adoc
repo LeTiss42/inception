@@ -21,23 +21,21 @@ ____
 . create a new image using a Dockerfile
 +
 [,bash]
-____
+----
 docker build -t my_image .
-____
-
+----
 . starting a container using an image
 +
 [,bash]
-____
+----
 docker run -it my_image
-____
-
+----
 . connecting to a running container
 +
 [,bash]
-____
+----
 docker exec -it [container-id] bash
-____
+----
 
 === Volume
 
@@ -46,12 +44,12 @@ ____
 . Create a volume
 +
 [,bash]
-____
+----
 docker volume create myDB
-____
+----
 . Specify a volume mount when starting a container
 +
 [,bash]
-____
+----
 docker run --mount type=volume,src=myDB,target=/etc/todos my_container
-____
+----
