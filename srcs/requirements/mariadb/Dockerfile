@@ -1,4 +1,4 @@
-#"oldstable" debian version
+# "oldstable" debian version
 FROM debian:bullseye
 
 # -q for quiet
@@ -7,7 +7,7 @@ RUN apt-get update -yq \
 && apt-get install mariadb-server -y \
 && apt-get clean -y 
 
-#copy our own configuration file into the container folder
+# copy our own configuration file into the container folder
 COPY conf/my_conf.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # mariadb setup, here or in a separate script. more info in mariadb_start.sh file
@@ -26,4 +26,3 @@ RUN service mariadb start \
 && service mariadb stop
 
 CMD ["mysqld_safe"]
-
