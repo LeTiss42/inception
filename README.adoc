@@ -39,7 +39,7 @@ docker exec -it [container-id] bash
 
 === Persist the DB
 
-* Volume
+==== Volume
 
 * Create a volume
 +
@@ -53,3 +53,9 @@ docker volume create myDB
 ----
 docker run --mount type=volume,src=myDB,target=/etc/todos my_container
 ----
+
+=== Why should we use multiple containers for an app
+
+____
+https://docs.docker.com/get-started/07_multi_container/
+____
