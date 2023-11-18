@@ -1,3 +1,4 @@
+# https://docs.docker.com/engine/reference/builder/
 FROM debian:bullseye
 
 # installation of php, php-fpm (fastCGI Manager) and php-mysql

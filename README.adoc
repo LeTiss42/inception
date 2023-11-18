@@ -1,0 +1,17 @@
+=Inception
+
+____
+Subject of the project : https://cdn.intra.42.fr/pdf/pdf/110882/en.subject.pdf
+____
+
+== Docker usage
+
+* install Docker Engine
+____
+https://docs.docker.com/engine/install/
+____
+
+* Docker overview with tutorial and best practices
+____
+https://docs.docker.com/get-started/overview/
+____

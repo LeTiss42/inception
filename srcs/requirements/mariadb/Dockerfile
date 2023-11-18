@@ -1,6 +1,11 @@
+# https://docs.docker.com/engine/reference/builder/
 # "oldstable" debian version
 FROM debian:bullseye
 
+ARG MARIA_ROOT_PWD=oui
+ARG MARIA_DB=ouidb
+ARG MARIA_USER=ouiuser
+ARG MARIA_PWD=ouipwd
 # -q for quiet
 RUN apt-get update -yq \
 && apt-get upgrade -y \

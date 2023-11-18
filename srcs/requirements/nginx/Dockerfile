@@ -1,6 +1,12 @@
-# parent image used by a lot of ppl
-#FROM debian:buster
-# parent image of the current penultimate stable version of debian
+# syntax=docker/dockerfile:1
+
+# parser directives at the very top of the Dockerfile.
+# here it set the Dockerfile syntax to the latest version.
+
+# Dockerfile reference doc :
+# https://docs.docker.com/engine/reference/builder/
+
+# parent image of the actual penultimate stable version of debian
 FROM debian:bullseye
 
 # apt, while being more "user-friendly", is less suited for script than apt-get
@@ -18,13 +24,14 @@ RUN apt-get update -yq \
 	-out /etc/nginx/sslcerts/cert.pem \
 	-subj "/C=FR/ST=Loiret/L=Montargis/O=42/OU=Quentin/CN=mravera"
 
-#swap nginx default configuration file with our
+# swap nginx default configuration file with our file
 COPY conf/nginx.conf /etc/nginx/conf.d/.
 
-#start nginx using the directive "daemon off" as an option to keep the program from self-daemonizing
+# start nginx using the directive "daemon off" as an option to keep the program from self-daemonizing
+# CMD does not execute anything at build time, but specifies the intended command for the image.
 CMD ["nginx", "-g", "daemon off;"]
 
-#openssl options :
+# openssl options :
 # req		request the creation of a certificate
 # -noenc	the created private key will not be encrypted (no "choose psswrd" prompt)
 # -nodes	same as -noenc but deprecated in 3.0
