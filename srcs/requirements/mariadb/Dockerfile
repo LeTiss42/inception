@@ -11,14 +11,19 @@ RUN apt-get update -yq \
 COPY conf/my_conf.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # mariadb setup, here or in a separate script. more info in mariadb_start.sh file
+# https://dev.mysql.com/doc/refman/8.0/en/account-names.html -> more info on account names and the use of 'user_name'@'%'
+# -> Account name default syntax is = 'user_name'@'host_name'
+# https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_grant-option -> more info on privileges
+
 RUN service mariadb start \
 && sleep 5 \
-&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DB}\`;" \
-&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PWD}';" \
-&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DB}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PWD}';" \
-&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIA_ROOT_PWD}';" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "CREATE DATABASE IF NOT EXISTS \`${MARIA_DB}\`;" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "CREATE USER IF NOT EXISTS \`${MARIA_USER}\`@'localhost' IDENTIFIED BY '${MARIA_PWD}';" \
+&& mariadb -u root -p"${MARIA_ROOT_PWD}" -e "GRANT ALL ON \`${MARIA_DB}\`.* TO \`${MARIA_USER}\`@'%' IDENTIFIED BY '${MARIA_PWD}';" \
+# && mariadb -u root -p"${MARIA_ROOT_PWD}" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIA_ROOT_PWD}';" \
 && mariadb -u root -p"${MARIA_ROOT_PWD}" -e "FLUSH PRIVILEGES;" \
-&& mariadb-admin -u root -p"${MARIA_ROOT_PWD}" shutdown
+# && mariadb-admin -u root -p"${MARIA_ROOT_PWD}" shutdown
+&& service mariadb stop
 
 CMD ["mysqld_safe"]
 
